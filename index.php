@@ -36,7 +36,7 @@
         </thead>
         <tbody>
             <?php
-            // Dati delle temperature
+            
             $temperatura2023 = [
                 "Gennaio" => 3.2,
                 "Febbraio" => 3.3,
