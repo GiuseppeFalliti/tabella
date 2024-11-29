@@ -1,95 +1,107 @@
-<?php
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabella</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+            text-align: center;
+        }
+        th, td {
+            border: 1px solid;
+            padding: 8px;
+        }
+        .max {
+            background-color: red;
+            color: white;
+        }
+        .min {
+            background-color: blue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Mese</th>
+                <th>Anno 2023</th>
+                <th>Anno 2024</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Dati delle temperature
+            $temperatura2023 = [
+                "Gennaio" => 3.2,
+                "Febbraio" => 3.3,
+                "Marzo" => 4.8,
+                "Aprile" => 9.1,
+                "Maggio" => 14.2,
+                "Giugno" => 20.5,
+                "Luglio" => 22.1,
+                "Agosto" => 23.6,
+                "Settembre" => 13.5,
+                "Ottobre" => 14.0,
+                "Novembre" => 7.4,
+                "Dicembre" => 2.2
+            ];
 
-// Dati delle temperature
-$temperatureData2022 = [
-    "Gennaio" => 2.1,
-    "Febbraio" => 4.5,
-    "Marzo" => 4.6,
-    "Aprile" => 8.5,
-    "Maggio" => 15.2,
-    "Giugno" => 19.5,
-    "Luglio" => 22.1,
-    "Agosto" => 20.4,
-    "Settembre" => 15.2,
-    "Ottobre" => 13.9,
-    "Novembre" => 6.4,
-    "Dicembre" => 2.2
-];
+            $temperatura2024 = [
+                "Gennaio" => 4.2,
+                "Febbraio" => 5.3,
+                "Marzo" => 6.8,
+                "Aprile" => 10.1,
+                "Maggio" => 16.2,
+                "Giugno" => 25.5,
+                "Luglio" => 30.1,
+                "Agosto" => 28.6,
+                "Settembre" => 20.5,
+                "Ottobre" => 18.0,
+                "Novembre" => 9.4,
+                "Dicembre" => 3.2
+            ];
 
-$temperatureData2023 = [
-    "Gennaio" => 3.2,
-    "Febbraio" => 3.3,
-    "Marzo" => 4.8,
-    "Aprile" => 9.1,
-    "Maggio" => 14.2,
-    "Giugno" => 20.5,
-    "Luglio" => 22.1,
-    "Agosto" => 23.6,
-    "Settembre" => 13.5,
-    "Ottobre" => 14.0,
-    "Novembre" => 7.4,
-    "Dicembre" => 2.2
-];
+            // temperature max e min di 2023/2024
+            $max2023 = max($temperatura2023);
+            $min2023 = min($temperatura2023);
 
+            $max2024 = max($temperatura2024);
+            $min2024 = min($temperatura2024);
 
-// Funzione per trovare massimo e minimo con il mese
-function findMinMax($data) {
-    $maxTemp = max($data);
-    $minTemp = min($data);
-    $maxMonth = array_search($maxTemp, $data);
-    $minMonth = array_search($minTemp, $data);
-
-    return [
-        "maxTemp" => $maxTemp,
-        "maxMonth" => $maxMonth,
-        "minTemp" => $minTemp,
-        "minMonth" => $minMonth
-    ];
-}
-
-// Calcola massimo e minimo per ciascun anno
-$result2022 = findMinMax($temperatureData2022);
-$result2023 = findMinMax($temperatureData2023);
-
-// Inizia il rendering della tabella
-echo "<table border='1' style='width: 100%; border-collapse: collapse; text-align: center;'>";
-echo "<thead>";
-echo "<tr>
-        <th>Mese</th>
-        <th>Anno 2022</th>
-        <th>Anno 2023</th>
-    </tr>";
-echo "</thead>";
-echo "<tbody>";
-
-// Stampa i dati mese per mese
-foreach ($temperatureData2022 as $month => $temp2022) {
-    $temp2023 = $temperatureData2023[$month] ?? "N/D"; // Nel caso non ci siano dati per il 2023
-
-    // Aggiungi classe per la colorazione della temperatura massima e minima
-    $color2022 = "";
-    $color2023 = "";
-
-    // Verifica se è la temperatura massima o minima per il 2022
-    if ($temp2022 == $result2022['maxTemp']) {
-        $color2022 = "style='background-color: red; color: white;'";
-    } elseif ($temp2022 == $result2022['minTemp']) {
-        $color2022 = "style='background-color: blue; color: white;'";
-    }
-
-    // Verifica se è la temperatura massima o minima per il 2023
-    if ($temp2023 == $result2023['maxTemp']) {
-        $color2023 = "style='background-color: red; color: white;'";
-    } elseif ($temp2023 == $result2023['minTemp']) {
-        $color2023 = "style='background-color: blue; color: white;'";
-    }
-
-    // Stampa la riga della tabella
-    echo "<tr>
-            <td>$month</td>
-            <td $color2022>$temp2022 °C</td>
-            <td $color2023>$temp2023 °C</td>
-        </tr>";
-}
-
-?>
+            // creazione della tabella
+            foreach ($temperatura2023 as $mese => $valore2023) {
+                $valore2024 = $temperatura2024[$mese]; 
+                echo "<tr>";
+                echo "<td>$mese</td>";
+                
+                // troviamo il td con la temperatura più alta o più bassa 2023
+                if ($valore2023 == $max2023) {
+                    echo "<td class='max'>$valore2023</td>";
+                } elseif ($valore2023 == $min2023) {
+                    echo "<td class='min'>$valore2023</td>";
+                } else {
+                    echo "<td>$valore2023</td>";
+                }
+                
+                // troviamo il td con la temperatura più alta o più bassa 2024
+                if ($valore2024 == $max2024) {
+                    echo "<td class='min'>$valore2024</td>";
+                } elseif ($valore2024 == $min2024) {
+                    echo "<td class='min'>$valore2024</td>";
+                } else {
+                    echo "<td>$valore2024</td>";
+                }
+                
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</body>
+</html>
